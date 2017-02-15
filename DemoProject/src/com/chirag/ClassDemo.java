@@ -11,4 +11,6 @@ public class ClassDemo {
 	int eclipse2;
 	int git2;
 
+	int intalij;
+
 }
