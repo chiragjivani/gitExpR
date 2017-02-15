@@ -3,6 +3,7 @@ package com.chirag;
 public class ClassDemo {
 
 	private int eclipse;
+  
   private int git = 5;
 
 }
