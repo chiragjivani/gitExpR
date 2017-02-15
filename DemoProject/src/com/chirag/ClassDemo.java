@@ -8,6 +8,10 @@ public class ClassDemo {
 	
 	private int git2;
 	
+
 	private int eclipse2;
+
+	private git3;
+
 
 }
