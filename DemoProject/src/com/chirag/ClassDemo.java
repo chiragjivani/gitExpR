@@ -21,5 +21,7 @@ public class ClassDemo {
 	int eclipse3;
 	
 	int git5;
+	
+	int git6;
 
 }
