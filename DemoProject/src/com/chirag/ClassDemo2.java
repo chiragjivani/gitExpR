@@ -9,5 +9,7 @@ public class ClassDemo2 {
 	int git3;
 	
 	int eclipse1;
+	
+	int git5;
 
 }
