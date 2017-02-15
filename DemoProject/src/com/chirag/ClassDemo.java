@@ -12,5 +12,7 @@ public class ClassDemo {
 	int git2;
 
 	int intalij;
+	
+	int git3;
 
 }
