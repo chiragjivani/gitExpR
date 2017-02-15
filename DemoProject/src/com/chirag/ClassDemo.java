@@ -2,6 +2,6 @@ package com.chirag;
 
 public class ClassDemo {
 
-  private int git;
+  private int git = 5;
 
 }
