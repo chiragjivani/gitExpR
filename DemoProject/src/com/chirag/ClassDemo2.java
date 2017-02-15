@@ -7,5 +7,7 @@ public class ClassDemo2 {
 	int git2;
 	
 	int git3;
+	
+	int eclipse1;
 
 }
