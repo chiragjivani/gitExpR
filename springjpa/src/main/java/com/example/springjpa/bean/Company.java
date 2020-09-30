@@ -12,12 +12,16 @@ import javax.persistence.OneToMany;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
+
 @Entity
 @Table(name = "Company")
+@Where(clause = "is_active=1")
 public class Company {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", insertable = false, updatable = false)
 	private int id;
 
 	@Column(name = "name")
@@ -27,6 +31,7 @@ public class Company {
 	private String city;
 	
 	@OneToMany(mappedBy = "compnayToEmpMap", /* cascade=CascadeType.ALL, */ fetch=FetchType.EAGER)
+	@Where(clause = "test2=1")
 	//@OneToMany(mappedBy="compnayToEmpMap")
 	//@OneToMany(cascade = CascadeType.ALL)
 	//@JoinColumn(name = "company_id"/* , insertable = false, updatable = false */)

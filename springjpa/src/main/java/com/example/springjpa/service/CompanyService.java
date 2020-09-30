@@ -1,6 +1,14 @@
 package com.example.springjpa.service;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Fetch;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.springjpa.bean.Company;
 import com.example.springjpa.bean.Employee;
+import com.example.springjpa.dto.CustomCmpDto;
+import com.example.springjpa.repository.CompanyRepository;
 
 @Service
 @Transactional
@@ -15,6 +25,9 @@ public class CompanyService {
 	
 	@Autowired
 	private EntityManager em;
+	
+	@Autowired
+	private CompanyRepository cmpRepo;
 
 	public void getCompany() {
 		Company c = em.find(Company.class, 1);
@@ -39,9 +52,12 @@ public class CompanyService {
 	}
 	
 	public void insertCompany() {
+		for(int i=0; i<10;i++) {
 		Company c = new Company();
 		c.setCity("test");
-		c.setCompanyName("test2");
+		c.setCompanyName("test5"+i);
+		em.persist(c);
+		}
 		try {
 			Thread.sleep(20*1000);
 		} catch (InterruptedException e) {
@@ -66,5 +82,58 @@ public class CompanyService {
 		//em.persist(c2);
 		System.out.println("saved");
 		System.out.println("Done");
+	}
+	
+	public void callJpaRepo() {
+		List<Object> list = cmpRepo.countDemo();
+		//System.out.println(list.get(0).getClass());
+		System.out.println(list);
+	}
+	
+	public void criteriaBuilderDemo() {
+		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery criteriaQuery = criteriaBuilder.createQuery(Company.class);
+        
+        /* FROM cause*/
+        Root<Company> cmp = criteriaQuery.from(Company.class);
+       
+        
+        /* WHERE cause */
+        criteriaQuery.where(criteriaBuilder.equal(cmp.get("city"), "test"));
+        
+        /* SELECT cause */
+        criteriaQuery.select(criteriaBuilder.countDistinct(cmp.get("id")));
+        
+        
+        
+        TypedQuery tq = em.createQuery(criteriaQuery);
+        List result = tq.getResultList();
+        System.out.println(result);
+	}
+	
+	public void criteriaBuilderDemo2() {
+		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery criteriaQuery = criteriaBuilder.createQuery(CustomCmpDto.class);
+        
+        /* FROM cause*/
+        Root<Company> cmp = criteriaQuery.from(Company.class);
+        //cmp.joi
+        cmp.join("employeeList", JoinType.INNER);
+        
+        /* WHERE cause */
+        //criteriaQuery.where(criteriaBuilder.equal(cmp.get("city"), "test"));
+        
+        //criteriaQuery.groupBy(cmp.get("city"));
+        
+        /* SELECT cause */
+        //criteriaQuery.select(criteriaBuilder.countDistinct(cmp.get("id")));
+        
+        //criteriaQuery.orderBy(criteriaBuilder.desc(criteriaBuilder.countDistinct(cmp.get("id"))));
+        
+        criteriaQuery.multiselect(cmp.get("id"), cmp.get("city"));
+        
+        TypedQuery tq = em.createQuery(criteriaQuery);
+        List result = tq.getResultList();
+        System.out.println(result);
 	}
 }

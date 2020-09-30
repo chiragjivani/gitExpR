@@ -16,9 +16,24 @@ public class TestController {
 	private EmployeeService es;
 	
 	@GetMapping("/")
-	public String test() {
-		cs.getCompany();
+	public String test() throws InterruptedException {
+		//cs.callJpaRepo();
+		cs.criteriaBuilderDemo2();
+		//cs.insertCompany();
+		//System.out.println("test "+Thread.currentThread().getId());
+		//Thread.sleep(60*1000);
+		
 		return "Hello";
 	}
+	
+	@GetMapping("/test2")
+	public String test2() throws InterruptedException {
+		//cs.insertCompany();
+		System.out.println("test2 "+Thread.currentThread().getId());
+		Thread.sleep(60*1000);
+		return "Hello";
+	}
+	
+	
 
 }
