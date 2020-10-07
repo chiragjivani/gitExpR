@@ -25,7 +25,8 @@ public class HibernateUtil {
 	
 	public static Session getSession()
 	{
-		Session session = sessionFactory.openSession();
+		//Session session = sessionFactory.openSession();
+		Session session = sessionFactory.withOptions().interceptor(new TestInterSeptor()).openSession();
 		session.beginTransaction();
 		return session;
 	}

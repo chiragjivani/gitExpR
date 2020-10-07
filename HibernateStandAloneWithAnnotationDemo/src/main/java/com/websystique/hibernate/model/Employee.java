@@ -14,11 +14,19 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "Employee")
 //@Where(clause = " salary = 1000 ")
+@FilterDef(name = "ef", parameters = {
+		@ParamDef(name = "salary", type = "integer")
+		
+})
+@Filter(name = "ef", condition = "salary<:salary")
 public class Employee {
 
 	@Id
@@ -34,13 +42,13 @@ public class Employee {
 	@Column(name = "cmp_name")
 	private String cmpName;
 	
-	@Column(name="company_id")
+	@Column(name="company_id",insertable = false, updatable = false)
 	//@Transient
 	private Integer companyId;
 	
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne(/* cascade=CascadeType.ALL */)
 	//@Fetch(FetchMode.SELECT)
-	@JoinColumn(name="company_id", insertable = false, updatable = false)
+	@JoinColumn(name="company_id")
 	//@Transient
 	//@Where(clause=" city = 'ahmedabad' ")
 	private Company compnayToEmpMap;

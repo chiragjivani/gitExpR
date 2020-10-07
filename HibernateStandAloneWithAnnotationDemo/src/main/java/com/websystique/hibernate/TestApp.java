@@ -8,17 +8,19 @@ public class TestApp {
 	public static void main(String[] args) {
 		
 		EmpDao dao = new EmpDao();
-		//dao.getAllEmpDetails();
+		dao.getAllEmpDetails();
 		//dao.saveEmp();
 		//dao.updateEmp();
 		//dao.deleteEmp();
-		dao.getEmployee();
+		//dao.getEmployee();
 	}
 	
 	public static void main2(String[] args) {
 		CompanyDao companyDao = new CompanyDao();
-		companyDao.updateCompanyEmployee();
+		companyDao.getCompany();
+		//companyDao.updateCompanyEmployee();
 		//companyDao.insertComapny();
+		//companyDao.mergeCompany();
 	}
 	
 	

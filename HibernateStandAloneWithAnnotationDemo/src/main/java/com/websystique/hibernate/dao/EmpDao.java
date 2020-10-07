@@ -6,8 +6,10 @@ import java.util.List;
 
 
 import org.hibernate.Criteria;
+import org.hibernate.Filter;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import com.websystique.hibernate.HibernateUtil;
 import com.websystique.hibernate.model.Company;
@@ -19,20 +21,32 @@ public class EmpDao {
 	public List<Employee> getAllEmpDetails()
 	{
 		Session session = hibernetUtil.getSession();
+		Filter enableFilter = session.enableFilter("ef");
+		enableFilter.setParameter("salary", new Integer(5000));
+		Employee emp1 = (Employee) session.get(Employee.class, 1);
 		/*List<Employee> list = session.createQuery(
 				"FROM Employee").list();*/
 		Criteria cr = session.createCriteria(Employee.class);
-		List list = cr.list();
+		cr.add(Restrictions.eq("cmpName", "google"));
+		List<Employee> list = cr.list();
+		
 		System.out.println("emp list fetched");
 		//session.flush();
-		Employee emp1 = (Employee) session.get(Employee.class, 3);
+		/*Employee emp1 = (Employee) session.get(Employee.class, 3);
 		System.out.println("emp1 is fetched."+emp1);
 		emp1.setSalary(888);
-		emp1.setEmployeeName("test2");
-		/*Query query = session.createQuery("update Employee set salary = 552 where id = 3");
+		emp1.setEmployeeName("test2");*/
+		Query query = session.createQuery("update Employee set salary = 5502 where cmpName = 'Google' and employeeName = 'emp1_3'");
 		query.executeUpdate();
 		System.out.println("hql update is fired.");
-		emp1.setSalary(553);*/
+		for(Employee emp : list)
+		{
+			if(emp.getEmployeeName().equalsIgnoreCase("emp1_3"))
+			{
+				emp.setEmployeeName("temp");
+			}
+		}
+	
 		//session.save(emp1);
 		session.flush();
 		hibernetUtil.commit(session);
